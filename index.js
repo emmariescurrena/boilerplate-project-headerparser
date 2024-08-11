@@ -16,15 +16,37 @@ app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+    res.sendFile(__dirname + '/views/index.html');
 });
 
 // your first API endpoint...
 app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
+    res.json({ greeting: 'hello API' });
 });
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+    console.log('Your app is listening on port ' + listener.address().port);
 });
+
+function getUserIp() {
+    return fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            return data.ip;
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
+}
+
+app.get("/api/whoami", async (req, res) => {
+    const ipAddress = await getUserIp();
+    const language = "";
+    const software = "";
+    res.json({
+        ipaddress: ipAddress,
+        language: language,
+        software: software,
+    })
+})
