@@ -42,7 +42,7 @@ function getUserIp() {
 
 app.get("/api/whoami", async (req, res) => {
     const ipAddress = await getUserIp();
-    const language = "";
+    const language = Navigator.language;
     const software = "";
     res.json({
         ipaddress: ipAddress,
